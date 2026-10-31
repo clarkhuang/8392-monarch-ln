@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>8392 Monarch Ln — 3D refurbished concept</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#262a33;--text:#e8e6e1;--muted:#9a9fa9;--accent:#d19a5b;--accent2:#7fb4c9}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.45 -apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+#app{display:grid;grid-template-columns:330px 1fr;height:100%}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:16px;overflow:auto}
+h1{font-size:18px;margin:0 0 2px}.sub{color:var(--muted);font-size:12px;margin-bottom:10px}
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:16px 0 6px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+button{background:#1f232c;border:1px solid var(--line);color:var(--text);padding:6px 8px;border-radius:8px;cursor:pointer;font-size:12px;text-align:left}
+button:hover{border-color:var(--accent)}button.on{border-color:var(--accent);background:#2a2418}
+.big{width:100%;text-align:center;font-weight:600;margin-bottom:5px}
+label.t{display:flex;align-items:center;gap:8px;padding:2px 0;font-size:13px;cursor:pointer}label.t input{accent-color:var(--accent)}
+.note{font-size:12px;color:var(--muted);margin-top:6px}a{color:var(--accent2)}
+kbd{background:#2a2e38;border:1px solid #3a3f4b;border-radius:4px;padding:0 5px;font-size:11px}
+main{position:relative;overflow:hidden}#c3d{position:absolute;inset:0}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lbl{position:absolute;transform:translate(-50%,-100%);background:rgba(15,17,21,.82);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:11px;white-space:nowrap;pointer-events:auto;cursor:pointer}
+.lbl.inf{border-style:dashed;color:#cfc6b8}.lbl.prop{border-color:#5fae6e;border-style:dashed}.lbl.own{border-color:#7fb4c9}.lbl.fut{border-color:#b06cff;border-style:dashed;color:#e3cfff}.t-fut{color:#d7a6ff;border-color:#d7a6ff}
+#hud{position:absolute;left:16px;bottom:14px;max-width:560px;background:rgba(15,17,21,.85);border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:13px;pointer-events:none}
+#hud b{color:var(--accent)}
+#minimap{position:absolute;right:14px;bottom:14px;width:260px;border:1px solid var(--line);border-radius:10px;background:#000}
+#north{position:absolute;right:20px;top:14px;width:54px;height:54px;background:rgba(15,17,21,.8);border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center}
+#help{position:absolute;inset:0;background:rgba(10,11,14,.88);display:none;align-items:center;justify-content:center;z-index:5}
+#help .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 26px;max-width:640px}
+#help table{border-collapse:collapse;font-size:13px}#help td{padding:4px 10px;border-bottom:1px solid var(--line)}
+#info{position:absolute;left:16px;top:14px;max-width:380px;background:rgba(15,17,21,.92);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px;display:none}
+.tag{display:inline-block;font-size:10.5px;padding:0 6px;border-radius:9px;margin-left:4px;border:1px solid}
+.t-photo{color:#7fd18a;border-color:#7fd18a}.t-sat{color:#7fb4c9;border-color:#7fb4c9}.t-rec{color:#e0c36a;border-color:#e0c36a}.t-inf{color:#d88;border-color:#d88}.t-prop{color:#5fae6e;border-color:#5fae6e}.t-own{color:#b9a3e6;border-color:#b9a3e6}
+#legend{font-size:12px}#legend li{margin:1px 0}#legend ul{padding-left:16px;margin:4px 0}
+@media (max-width:900px){#app{grid-template-columns:1fr}aside{max-height:40vh}}
+#tb{position:absolute;left:50%;top:12px;transform:translateX(-50%);display:flex;gap:4px;flex-wrap:wrap;justify-content:center;background:rgba(15,17,21,.86);border:1px solid var(--line);border-radius:12px;padding:5px;z-index:3;max-width:calc(100% - 120px)}
+#tb button{padding:5px 9px;font-size:12.5px;text-align:center}#tb .sep{width:1px;background:var(--line);margin:2px 3px}
+#pad{position:absolute;left:16px;bottom:70px;display:none;grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);gap:5px;z-index:3;user-select:none;-webkit-user-select:none}
+#pad button{font-size:18px;text-align:center;padding:0;background:rgba(31,35,44,.85);touch-action:none}#pad button.on{background:#3a3020;border-color:var(--accent)}
+#caption{position:absolute;left:50%;top:64px;transform:translateX(-50%);background:rgba(15,17,21,.88);border:1px solid var(--line);border-radius:10px;padding:8px 14px;max-width:560px;text-align:center;opacity:0;transition:opacity .6s;pointer-events:none;z-index:2}
+#caption{transition:opacity .6s ease}#caption.tourcap{max-width:min(92vw,620px);font-size:14px}#caption.tourcap b{font-size:18px}#caption.tourcap span{font-size:14.5px;line-height:1.35}#caption b{display:block;color:var(--accent);font-size:15px}#caption span{font-size:12.5px;color:#d6d2ca}
+#tourBar{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:none;gap:6px;align-items:center;background:rgba(15,17,21,.9);border:1px solid var(--accent);border-radius:10px;padding:6px 10px;z-index:4}
+#minimapWrap{position:absolute;right:14px;bottom:14px;width:260px}#minimap{position:static;display:block;width:260px;cursor:crosshair}
+#mmMode{position:absolute;left:6px;top:-26px;font-size:11px;padding:2px 8px}
+.lbl{transition:opacity .25s}
+@media (max-width:900px){aside{max-height:24vh}#minimapWrap{width:140px}#minimap{width:140px}#mmMode{display:none}#hud{display:none}#tb{top:4px;max-width:100%;padding:3px;gap:2px}#tb button{padding:3px 6px;font-size:11px}#tb .sep{display:none}#pad{grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);bottom:12px;left:10px}#caption{top:72px;max-width:92%}}
+#burger{display:none;position:absolute;left:8px;top:6px;z-index:6;font-size:18px;padding:4px 10px;text-align:center}
+body.clean #app{grid-template-columns:1fr}body.clean aside,body.clean #tb,body.clean #minimapWrap,body.clean #hud,body.clean #pad,body.clean #labels,body.clean #caption,body.clean #north,body.clean #tourBar,body.clean #burger,body.clean #info{display:none!important}
+@media (max-width:900px){#app{grid-template-columns:1fr!important;grid-template-rows:1fr}aside{position:fixed;left:0;top:0;bottom:0;width:86vw;max-width:340px;max-height:none!important;z-index:20;transform:translateX(-105%);transition:transform .25s;box-shadow:0 0 30px rgba(0,0,0,.6)}
+ body.menu aside{transform:none}#burger{display:block}#tb{left:52px;right:8px;transform:none;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch;max-width:none}#tb button{flex:0 0 auto}main{height:100vh}}
+</style></head><body>
+<div id="app"><aside>
+<h1>8392 Monarch Ln <span style="color:var(--accent)">3D</span></h1>
+<div class="sub">Parcel 28-13-121-016-01 · 5.00 ac · Whitewater Twp · Residential · refurbished concept (sibling of the 5312 Samels model). Concept model; sizes are estimates.</div>
+<h2>Viewpoints (smooth fly-to)</h2><div class="btns" id="views"></div>
+<h2>Layers</h2><div id="layers"></div>
+<label class="t"><input type="checkbox" id="roofT" checked onchange="window.__refresh()"> Roofs</label>
+<label class="t"><input type="checkbox" id="lblT" checked onchange="window.__refresh()"> Labels</label>
+<h2>Confidence tags</h2>
+<div><span class="tag t-photo">photo</span><span class="tag t-rec">public record</span><span class="tag t-inf">inferred</span><span class="tag t-prop">proposed</span><span class="tag t-own">owned (Florida inventory)</span></div>
+<h2>Legend</h2><div id="legend"></div>
+<div class="note">Footprint: 1,200 sf above grade (listing) modeled as 50 × 24 ft (estimated). Garage 28 × 27 (listing). Outbuilding ~40 × 56 (estimated from photos 3, 18). Room layout reconstructed from 43 listing photos — see 2026-10-30_monarch_photo_review.md. Orientation and site positions are inferred.</div>
+</aside><main><canvas id="c3d"></canvas><div id="labels"></div>
+<div id="north"><svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,3 23,22 17,18 11,22" fill="#d19a5b"/><text x="17" y="32" fill="#e8e6e1" font-size="9" text-anchor="middle">N</text></svg></div>
+<div id="info"></div><div id="hud"><b>Orbit</b>: drag to rotate, right-drag to pan, scroll to zoom. Click a label for details.</div>
+</main></div>
+<script src="lib/three.min.js"></script><script src="lib/OrbitControls.js"></script><script src="lib/GLTFLoader.js"></script><script src="lib/RGBELoader.js"></script>
+<script src="model.js"></script></body></html>
