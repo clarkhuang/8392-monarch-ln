@@ -17,7 +17,7 @@ const camera=new THREE.PerspectiveCamera(55,1,0.3,6000);
 scene.add(new THREE.HemisphereLight(0xf4f7ff,0x6a6650,0.78));scene.add(new THREE.AmbientLight(0xffffff,0.2));
 const sun=new THREE.DirectionalLight(0xfff4e2,0.85);sun.position.set(-300,500,400);scene.add(sun);
 // ---------- groups / layers ----------
-const LAYERS={site:'Site: terrain, orchard, road, drive',bldg:'Building shells',roof:'Roofs + ceilings',main:'Main level (refreshed)',lower:'Walk-out lower level (piano lounge)',garage:'3-car garage + Airstream Interstate 24X',ob:'Outbuilding: guest unit + fitness/recovery center',pmain:'plan: main',plower:'plan: lower',pob:'plan: outbuilding',lmain:'labels: main',llower:'labels: lower',lob:'labels: outbuilding',lsite:'labels: site'};
+const LAYERS={site:'Site: terrain, orchard, road, drive',bldg:'Building shells',roof:'Roofs + ceilings',main:'Main level (refreshed)',lower:'Walk-out lower level (piano lounge)',garage:'3-car garage + Airstream Interstate 24X 4x4',ob:'Outbuilding: guest unit + fitness/recovery center',pmain:'plan: main',plower:'plan: lower',pob:'plan: outbuilding',lmain:'labels: main',llower:'labels: lower',lob:'labels: outbuilding',lsite:'labels: site'};
 const G={};for(const k in LAYERS){G[k]=new THREE.Group();scene.add(G[k]);}
 ['pmain','plower','pob','lmain','llower','lob','lsite'].forEach(k=>G[k].visible=false);
 const TAGS={photo:['seen in photo','t-photo'],rec:['public record','t-rec'],inf:['inferred','t-inf'],prop:['proposed','t-prop'],own:['owned – Florida inventory','t-own']};
@@ -218,14 +218,14 @@ wall(gg,GX0,GZ0,0,GZ0,0,9,M.wall,[[12,15,0,6.8,'d']],pm,.45);wall(hb,GX0,GZ0-.28
 wall(gg,GX0,GZ0,GX0,24,0,9,M.wall,[[10,13,3.5,6.5,'w']],pm,.45);wall(hb,GX0-.28,GZ0,GX0-.28,24,0,9,M.vinyl,[[10,13,3.5,6.5,'o']],null,.1);
 roof(G.roof,GX0,GZ0,-0.7,24,9.1,6,false,M.shing,.7);
 stairs(gg,pm,-4,8.5,-0.3,11.5,0,YM-.1,'E','UP 4 steps');
-// 2021 Airstream Interstate 24X 4x4 (Mercedes Sprinter 3500 4x4 chassis): ~24′4″ L × ~6′7″ W body (~8′4″ with mirrors) × ~9′7″ H (spec, verify) — parked behind the double door
+// 2022 Airstream Interstate 24X 4x4 on 2021 Mercedes Sprinter 3500 chassis: 24′6″ L × 6′7″ W body × 9′9″ H (Airstream spec + per Clark 2026-10-23; mirror width unverified) — parked behind the double door
 {const ax0=GX0+6.6,ax1=ax0+6.6,az0=-1.4,az1=az0+24.3;const sil=S(0xe3e6e8,{roughness:.35,metalness:.25}),blk=S(0x15171a,{roughness:.6});
  B(gg,ax0,az0,ax1,az1-4.5,1.4,7.4,sil);B(gg,ax0+.1,az1-4.5,ax1-.1,az1-1.6,1.4,4.6,sil);B(gg,ax0+.15,az1-1.6,ax1-.15,az1,1.4,2.6,sil);
  const ws=new THREE.Mesh(new THREE.BoxGeometry(6.2,2.4,.1),S(0x1b2a33,{roughness:.05,metalness:.5}));ws.position.set((ax0+ax1)/2,6.5,az1-3.2);ws.rotation.x=-.5;gg.add(ws);
  B(gg,ax0+1,az0+4,ax1-1,az0+7,8.8,.8,M.white);B(gg,ax0+.2,az0+12,ax1-.2,az0+16,8.8,.25,blk);
  for(const z of [az0+3.5,az1-4.8])for(const x of [ax0-.1,ax1+.1]){const w=new THREE.Mesh(new THREE.CylinderGeometry(1.35,1.35,1,20),blk);w.rotation.z=Math.PI/2;w.position.set(x,1.35,z);gg.add(w);}
  B(gg,ax0-.05,az0+6,ax0,az0+18,3,2.2,blk);B(gg,ax1,az0+6,ax1+.05,az0+18,3,2.2,blk);
- info('2021 Airstream Interstate 24X 4x4 — in the 3-car garage (Clark confirmed fit)','own','Body ~24′4″ × 6′7″ (8′4″ mirrors) × ~9′7″ tall (Airstream spec — verify). Bay depth 27 ft leaves ~1.3 ft each end; behind the ~16 ft double door. Photos 2 and 13 show the door openings but not their height — measure the door height and opener rail vs the van\'s roof AC/solar.',[(ax0+ax1)/2,11,(az0+az1)/2],'garage');}
+ info('2022 Airstream Interstate 24X 4x4 on 2021 Mercedes Sprinter 3500 chassis — in the 3-car garage (Clark confirmed fit)','own','24′6″ long × 6′7″ wide (body; mirror width unverified) × 9′9″ tall (Airstream spec; same as Clark\'s figures). Bay depth 27 ft leaves ~1.25 ft each end; door needs ≥10 ft clear (12 ft ideal); behind the ~16 ft double door. Photos 2 and 13 show the door openings but not their height — measure the door height and opener rail vs the van\'s roof AC/solar.',[(ax0+ax1)/2,11,(az0+az1)/2],'garage');}
 light(gg,-14,8,10,.35,30);B(G.roof,GX0,GZ0,0,24,9,.12,M.ceil);[[-21,4],[-7,4],[-21,17],[-7,17]].forEach(([x,z])=>can(G.roof,x,9,z));
 info('Attached 3-car garage 28 × 27 (listing)','rec','Photos 2, 13: one ~16 ft double door + one ~8–9 ft single door (widths estimated), unfinished framing, concrete floor. Garage slab ~4 ft below the main floor (raised ranch), steps up into the kitchen.',[-14,13,10],'garage');
 // ======================= OUTBUILDING → guest unit + fitness & recovery center =======================
